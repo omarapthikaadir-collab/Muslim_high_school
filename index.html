@@ -1,0 +1,3061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aetheris | Premium High School Management System</title>
+  
+  <!-- Premium Typography (Outfit & Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================
+       1. DESIGN SYSTEM & ROOT STYLING
+       ========================================== */
+    :root {
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      
+      /* Glassmorphism Color Palette */
+      --glass-bg: rgba(255, 255, 255, 0.06);
+      --glass-bg-hover: rgba(255, 255, 255, 0.12);
+      --glass-bg-active: rgba(255, 255, 255, 0.18);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-border-focus: rgba(255, 255, 255, 0.3);
+      --glass-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.3);
+      
+      /* Dynamic Accents */
+      --accent-primary: #3b82f6; /* Modern Apple Blue */
+      --accent-gradient: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+      --accent-glow: rgba(59, 130, 246, 0.4);
+      
+      --success: #10b981; /* Emerald */
+      --success-gradient: linear-gradient(135deg, #34d399 0%, #059669 100%);
+      --success-glow: rgba(16, 185, 129, 0.3);
+      
+      --danger: #ef4444; /* Rose */
+      --danger-gradient: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+      
+      --warning: #f59e0b; /* Amber */
+      --warning-gradient: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      
+      --text-main: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.65);
+      --text-dark: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: #0f2027; /* Fallback */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Animated Dynamic Mesh Gradient Background */
+    .bg-mesh-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -10;
+      overflow: hidden;
+      background: radial-gradient(circle at 10% 20%, rgba(30, 60, 114, 0.9) 0%, rgba(42, 82, 152, 0.9) 45%, rgba(15, 32, 39, 0.95) 100%);
+    }
+
+    .bg-mesh-sphere {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      mix-blend-mode: screen;
+      animation: float-bg infinite alternate ease-in-out;
+    }
+
+    .bg-mesh-sphere-1 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.6) 0%, rgba(99, 102, 241, 0) 70%);
+      top: -10%;
+      left: 5%;
+      animation-duration: 25s;
+    }
+
+    .bg-mesh-sphere-2 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.5) 0%, rgba(236, 72, 153, 0) 70%);
+      bottom: -15%;
+      right: 5%;
+      animation-duration: 35s;
+      animation-delay: -5s;
+    }
+
+    .bg-mesh-sphere-3 {
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.55) 0%, rgba(59, 130, 246, 0) 70%);
+      top: 40%;
+      right: 25%;
+      animation-duration: 30s;
+      animation-delay: -10s;
+    }
+
+    @keyframes float-bg {
+      0% { transform: translateY(0) scale(1) rotate(0deg); }
+      100% { transform: translateY(50px) scale(1.15) rotate(180deg); }
+    }
+
+    /* Custom Fluid Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+
+    /* Custom Base Glass Utilities */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      border-radius: 20px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover {
+      border-color: var(--glass-border-focus);
+      box-shadow: 0 20px 48px 0 rgba(0, 0, 0, 0.45);
+    }
+
+    /* Dynamic Float Animation Class */
+    .animate-float {
+      animation: gentle-float 6s ease-in-out infinite;
+    }
+
+    @keyframes gentle-float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* ==========================================
+       2. LOGIN SYSTEM LAYOUT
+       ========================================== */
+    .login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s;
+    }
+
+    .login-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 440px;
+      padding: 40px;
+      text-align: center;
+      animation: zoom-in-glass 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes zoom-in-glass {
+      0% {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+        backdrop-filter: blur(0px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        backdrop-filter: blur(20px);
+      }
+    }
+
+    .login-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 2.2rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 30%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .login-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+    }
+
+    /* Apple-style Custom Tab Switching */
+    .role-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+
+    .role-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 10px 0;
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: var(--font-display);
+      cursor: pointer;
+      border-radius: 9px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2;
+    }
+
+    .role-tab.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Styled Login Inputs */
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+      position: relative;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 16px;
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-muted);
+      fill: none;
+      pointer-events: none;
+      transition: stroke 0.3s;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 14px 16px 14px 46px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .input-field:focus {
+      border-color: var(--accent-primary);
+      background: rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+    }
+
+    .input-field:focus + .input-icon {
+      stroke: var(--accent-primary);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent-gradient);
+      border: none;
+      border-radius: 12px;
+      color: #ffffff;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px var(--accent-glow);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-top: 10px;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    .login-tip {
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* ==========================================
+       3. SYSTEM CORE WRAPPER & MAIN LAYOUT
+       ========================================== */
+    .app-container {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      padding: 20px;
+      gap: 20px;
+      opacity: 0;
+      transform: scale(0.97);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      visibility: hidden;
+      overflow: hidden;
+    }
+
+    .app-container.visible {
+      opacity: 1;
+      transform: scale(1);
+      visibility: visible;
+    }
+
+    /* Left Navigation Sidebar */
+    .sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 25px 20px;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 35px;
+      padding-left: 8px;
+    }
+
+    .logo-badge {
+      width: 36px;
+      height: 36px;
+      background: var(--accent-gradient);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .logo-badge svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: white;
+      stroke-width: 2px;
+    }
+
+    .sidebar-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.35rem;
+      letter-spacing: -0.5px;
+    }
+
+    /* Sidebar User Info Badge */
+    .user-profile-badge {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .user-meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .user-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-role-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      background: rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+      border-radius: 6px;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* Navigation Links */
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .nav-item {
+      display: block;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 0.95rem;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+      background: var(--glass-bg-hover);
+    }
+
+    .nav-link.active {
+      color: #ffffff;
+      background: var(--accent-gradient);
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    .nav-link svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8px;
+      transition: stroke 0.3s;
+    }
+
+    /* Sidebar Footer Logout */
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 20px;
+    }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      color: #f87171;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.15);
+      border-radius: 12px;
+      width: 100%;
+      text-align: left;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .logout-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+    }
+
+    .logout-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2px;
+    }
+
+    /* Main Panel Content Area */
+    .main-panel {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-width: 0;
+    }
+
+    /* Top Glass Header Bar */
+    .top-header {
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      flex-shrink: 0;
+    }
+
+    .header-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header-greeting {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .header-subtext {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* Dynamic Real-time Date-Time widget */
+    .clock-widget {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 10px 16px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .clock-widget svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--accent-primary);
+      fill: none;
+      stroke-width: 2px;
+    }
+
+    /* Main Scrollable View Area */
+    .scroll-content {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    /* View containers toggle behavior */
+    .view-section {
+      display: none;
+      flex-direction: column;
+      gap: 25px;
+      animation: fade-slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .view-section.active {
+      display: flex;
+    }
+
+    @keyframes fade-slide-up {
+      0% { opacity: 0; transform: translateY(15px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Section Header and Title */
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    /* ==========================================
+       4. DASHBOARD GRID & STAT CARDS
+       ========================================== */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+    }
+
+    .stat-card {
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 80%);
+      pointer-events: none;
+    }
+
+    .stat-icon-container {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-card-blue .stat-icon-container {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #60a5fa;
+    }
+
+    .stat-card-emerald .stat-icon-container {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+    }
+
+    .stat-card-amber .stat-icon-container {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fbbf24;
+    }
+
+    .stat-card-indigo .stat-icon-container {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #818cf8;
+    }
+
+    .stat-icon-container svg {
+      width: 26px;
+      height: 26px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2px;
+    }
+
+    .stat-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-top: 4px;
+      letter-spacing: -0.5px;
+    }
+
+    /* Dashboard Widgets Split Layout */
+    .dashboard-split {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-split {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .widget-panel {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .widget-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .widget-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    /* Interactive Ledger Feed */
+    .activity-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+    }
+
+    .activity-circle {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .activity-desc {
+      flex: 1;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .activity-time {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Modern Finance Progress Widget */
+    .financial-overview-box {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 10px;
+      background: var(--accent-gradient);
+      box-shadow: 0 0 10px var(--accent-glow);
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .financial-labels-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ==========================================
+       5. FORMS & DATA CAPTURE PANELS
+       ========================================== */
+    .form-panel {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .grid-forms-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .grid-forms-2col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .modern-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Apple-style Custom Select & Option Box */
+    .select-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .select-field {
+      width: 100%;
+      padding: 12px 35px 12px 16px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .select-field:focus {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .select-field option {
+      background: #182235;
+      color: #ffffff;
+    }
+
+    .select-chevron {
+      position: absolute;
+      right: 14px;
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-muted);
+      stroke-width: 2.5px;
+      fill: none;
+      pointer-events: none;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .btn-secondary {
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      color: #ffffff;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-primary {
+      padding: 12px 24px;
+      background: var(--accent-gradient);
+      border: none;
+      border-radius: 10px;
+      color: #ffffff;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px var(--accent-glow);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(59, 130, 246, 0.55);
+    }
+
+    .btn-primary svg {
+      width: 18px;
+      height: 18px;
+      stroke: white;
+      fill: none;
+      stroke-width: 2.5px;
+    }
+
+    /* ==========================================
+       6. PREMIUM LOGICAL TABLES
+       ========================================== */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .modern-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    .modern-table th {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 16px 20px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+
+    .modern-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: #ffffff;
+    }
+
+    .modern-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .modern-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-blue {
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .badge-purple {
+      background: rgba(139, 92, 246, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .badge-success {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .badge-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-btn-danger {
+      color: #f87171;
+    }
+
+    .action-btn-danger:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .action-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2px;
+    }
+
+    /* List Search and Filter bar */
+    .search-filter-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      align-items: center;
+    }
+
+    .search-box-wrapper {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-box-wrapper svg {
+      position: absolute;
+      left: 14px;
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-muted);
+      fill: none;
+      stroke-width: 2.2px;
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 14px 10px 42px;
+      background: rgba(0,0,0,0.18);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      color: white;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border 0.3s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-primary);
+    }
+
+    /* ==========================================
+       7. ATTENDANCE ROLL MODULE SPECIFICS
+       ========================================== */
+    .attendance-query-bar {
+      padding: 20px;
+      display: flex;
+      align-items: flex-end;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .attendance-query-bar .form-group {
+      margin-bottom: 0;
+    }
+
+    .roll-call-card {
+      padding: 24px;
+    }
+
+    /* Interactive Attendance Toggles styling */
+    .attendance-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 15px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .attendance-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .attendance-item:hover {
+      background: rgba(255, 255, 255, 0.02);
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .att-student-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .att-number {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      width: 24px;
+    }
+
+    .att-name {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    /* Apple switch style attendance toggler button */
+    .att-status-toggle {
+      display: flex;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 3px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+      width: 170px;
+      position: relative;
+    }
+
+    .att-toggle-btn {
+      flex: 1;
+      padding: 6px 12px;
+      border-radius: 17px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+    }
+
+    .att-toggle-btn.present-active {
+      background: var(--success-gradient);
+      color: #ffffff;
+      box-shadow: 0 4px 10px var(--success-glow);
+    }
+
+    .att-toggle-btn.absent-active {
+      background: var(--danger-gradient);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+    }
+
+    .att-empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    /* ==========================================
+       8. NOTIFICATION / TOAST TOAST ENGINE
+       ========================================== */
+    .toast-container {
+      position: fixed;
+      top: 25px;
+      right: 25px;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .toast-box {
+      background: rgba(24, 30, 46, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-left: 5px solid var(--accent-primary);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 16px 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      min-width: 320px;
+      max-width: 420px;
+      pointer-events: auto;
+      animation: toast-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transition: all 0.3s ease;
+    }
+
+    .toast-box.toast-out {
+      animation: toast-slide-out 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .toast-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .toast-card-success {
+      border-left-color: var(--success);
+    }
+    .toast-card-danger {
+      border-left-color: var(--danger);
+    }
+
+    .toast-content {
+      flex: 1;
+    }
+
+    .toast-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #ffffff;
+    }
+
+    .toast-message {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+
+    @keyframes toast-slide-in {
+      0% { transform: translateX(110%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes toast-slide-out {
+      0% { transform: translateX(0); opacity: 1; }
+      100% { transform: translateX(110%); opacity: 0; }
+    }
+
+    /* Screen Reader & Display Utilities */
+    .hidden {
+      display: none !important;
+    }
+    
+    .opacity-0 {
+      opacity: 0 !important;
+    }
+
+    /* Responsiveness updates */
+    @media (max-width: 900px) {
+      .app-container {
+        flex-direction: column;
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+      }
+      .sidebar {
+        width: 100%;
+        height: auto;
+        overflow-y: visible;
+      }
+      .main-panel {
+        height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Mesh Animation Elements -->
+  <div class="bg-mesh-container">
+    <div class="bg-mesh-sphere bg-mesh-sphere-1"></div>
+    <div class="bg-mesh-sphere bg-mesh-sphere-2"></div>
+    <div class="bg-mesh-sphere bg-mesh-sphere-3"></div>
+  </div>
+
+  <!-- Toast Notification Center -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ==========================================
+       1. AUTHENTICATION MODULE (LOGIN OVERLAY)
+       ========================================== -->
+  <div class="login-overlay" id="login-overlay">
+    <div class="login-box glass-card animate-float">
+      <div class="login-logo">AETHERIS</div>
+      <div class="login-subtitle">High School Management Portal</div>
+      
+      <!-- Role Toggle Segmented Control -->
+      <div class="role-tabs">
+        <button class="role-tab active" id="btn-tab-manager" onclick="setAuthRole('manager')">Manager</button>
+        <button class="role-tab" id="btn-tab-teacher" onclick="setAuthRole('teacher')">Teacher</button>
+      </div>
+      
+      <form id="login-form" onsubmit="handleAuthLogin(event)" class="modern-form">
+        <div class="input-group">
+          <label class="input-label" for="login-username">Username</label>
+          <div class="input-wrapper">
+            <input type="text" id="login-username" class="input-field" placeholder="e.g. admin or teacher" required autocomplete="username">
+            <svg class="input-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label" for="login-password">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="login-password" class="input-field" placeholder="••••••••" required autocomplete="current-password">
+            <svg class="input-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+          </div>
+        </div>
+        
+        <button type="submit" class="login-btn" id="login-submit-btn">Sign In</button>
+      </form>
+      
+      <div class="login-tip" id="login-credentials-tip">
+        Manager: <strong>admin / 123</strong> | Teacher: <strong>teacher / 123</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       2. CORE WORKSPACE (DASHBOARD & MAIN VIEW)
+       ========================================== -->
+  <div class="app-container" id="app-container">
+    
+    <!-- left glassy navigation panel -->
+    <aside class="sidebar glass-card">
+      <div class="sidebar-header">
+        <div class="logo-badge">
+          <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+        </div>
+        <div class="sidebar-title">Aetheris</div>
+      </div>
+      
+      <!-- User profile tag -->
+      <div class="user-profile-badge">
+        <div class="user-avatar" id="user-avatar-text">M</div>
+        <div class="user-meta">
+          <div class="user-name" id="user-display-name">System User</div>
+          <span class="user-role-tag" id="user-display-role">Manager</span>
+        </div>
+      </div>
+      
+      <!-- Functional navigation buttons -->
+      <nav style="flex: 1;">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a class="nav-link active" onclick="switchSection('dashboard')" id="nav-dashboard">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1" /><rect x="14" y="3" width="7" height="5" rx="1" /><rect x="14" y="12" width="7" height="9" rx="1" /><rect x="3" y="16" width="7" height="5" rx="1" /></svg>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="switchSection('students')" id="nav-students">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+              Students
+            </a>
+          </li>
+          <li class="nav-item" id="nav-item-teachers">
+            <a class="nav-link" onclick="switchSection('teachers')" id="nav-teachers">
+              <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
+              Teachers
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="switchSection('attendance')" id="nav-attendance">
+              <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+              Attendance Roll
+            </a>
+          </li>
+          <li class="nav-item" id="nav-item-fees">
+            <a class="nav-link" onclick="switchSection('fees')" id="nav-fees">
+              <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" ry="2" /><line x1="12" y1="4" x2="12" y2="20" /><line x1="2" y1="12" x2="22" y2="12" /></svg>
+              Student Fees
+            </a>
+          </li>
+          <li class="nav-item" id="nav-item-payroll">
+            <a class="nav-link" onclick="switchSection('payroll')" id="nav-payroll">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
+              Teacher Payroll
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <!-- Logout wrapper -->
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="handleAuthLogout()">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Container -->
+    <main class="main-panel">
+      
+      <!-- Top header layout -->
+      <header class="top-header glass-card">
+        <div class="header-left">
+          <div class="header-greeting" id="header-welcome-title">Welcome back, Manager</div>
+          <div class="header-subtext">Aetheris School Administration Panel Portal</div>
+        </div>
+        <div class="header-right">
+          <!-- Dynamic clock visual -->
+          <div class="clock-widget">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+            <span id="header-live-time">Sunday, May 31, 2026 8:44 AM</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Scrollable content area containing reactive segments -->
+      <div class="scroll-content" id="scroll-content-view">
+
+        <!-- ==========================================
+             3. SECTION: DASHBOARD
+             ========================================== -->
+        <section class="view-section active" id="section-dashboard">
+          <div class="section-title-wrap">
+            <h1 class="section-title">Dashboard Overview</h1>
+          </div>
+          
+          <!-- Metrical analysis quickcards -->
+          <div class="stat-grid">
+            <div class="glass-card stat-card stat-card-blue animate-float">
+              <div class="stat-icon-container">
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /></svg>
+              </div>
+              <div class="stat-info">
+                <div class="stat-label">Enrolled Students</div>
+                <div class="stat-value" id="dash-val-students">0</div>
+              </div>
+            </div>
+            
+            <div class="glass-card stat-card stat-card-emerald">
+              <div class="stat-icon-container">
+                <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
+              </div>
+              <div class="stat-info">
+                <div class="stat-label">Active Teachers</div>
+                <div class="stat-value" id="dash-val-teachers">0</div>
+              </div>
+            </div>
+            
+            <div class="glass-card stat-card stat-card-amber" id="dash-card-fees">
+              <div class="stat-icon-container">
+                <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" ry="2" /><line x1="12" y1="4" x2="12" y2="20" /></svg>
+              </div>
+              <div class="stat-info">
+                <div class="stat-label">Collected Fees</div>
+                <div class="stat-value" id="dash-val-fees">$0.00</div>
+              </div>
+            </div>
+            
+            <div class="glass-card stat-card stat-card-indigo" id="dash-card-net">
+              <div class="stat-icon-container">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
+              </div>
+              <div class="stat-info">
+                <div class="stat-label">Net Balance</div>
+                <div class="stat-value" id="dash-val-net">$0.00</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary Grid: Finance summary & ledger history -->
+          <div class="dashboard-split">
+            
+            <!-- Left Panel: Log ledger -->
+            <div class="glass-card widget-panel">
+              <div class="widget-header">
+                <h2 class="widget-title">Recent System Activities Log</h2>
+              </div>
+              <ul class="activity-list" id="dashboard-activity-log">
+                <li class="att-empty-state">No operations registered in this session.</li>
+              </ul>
+            </div>
+            
+            <!-- Right Panel: Financial distribution summary -->
+            <div class="glass-card widget-panel" id="dash-widget-finance">
+              <div class="widget-header">
+                <h2 class="widget-title">Financial Breakdown</h2>
+              </div>
+              <div class="financial-overview-box">
+                <div class="financial-labels-row">
+                  <span>Gross Tuition Receipts</span>
+                  <strong id="fin-breakdown-fees">$0.00</strong>
+                </div>
+                <div class="financial-labels-row">
+                  <span>Salary Expenditures</span>
+                  <strong id="fin-breakdown-payroll">$0.00</strong>
+                </div>
+                
+                <div class="progress-bar-container">
+                  <div class="progress-bar-fill" id="fin-ratio-bar" style="width: 0%"></div>
+                </div>
+                
+                <div class="financial-labels-row" style="margin-top: 10px;">
+                  <span>Financial Efficiency Ratio</span>
+                  <span id="fin-ratio-text">0%</span>
+                </div>
+              </div>
+              
+              <div class="login-tip" style="margin-top: auto; font-size: 0.78rem;">
+                <strong>Formula:</strong> Net Balance is dynamically derived by subtracting Teacher Payroll costs from Collected Student Tuition Fees.
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================
+             4. SECTION: STUDENTS MANAGEMENT
+             ========================================== -->
+        <section class="view-section" id="section-students">
+          <div class="section-title-wrap">
+            <h1 class="section-title">Student Management</h1>
+          </div>
+          
+          <div class="dashboard-split">
+            
+            <!-- Student Register Input Form -->
+            <div class="glass-card form-panel" id="student-form-container">
+              <h2 class="widget-title">Add New Student Profile</h2>
+              
+              <form id="student-register-form" onsubmit="submitStudentForm(event)" class="modern-form">
+                <input type="hidden" id="student-edit-id">
+                
+                <div class="input-group">
+                  <label class="input-label" for="student-name">Full Student Name</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="student-name" class="input-field" style="padding-left: 16px;" placeholder="e.g. Abdirahman Omar Ali" required>
+                  </div>
+                </div>
+                
+                <div class="grid-forms-2col">
+                  <div class="input-group">
+                    <label class="input-label" for="student-class">Form Academic Class</label>
+                    <div class="select-wrapper">
+                      <select id="student-class" class="select-field" required>
+                        <option value="" disabled selected>Select class...</option>
+                        <option value="Form 1">Form 1</option>
+                        <option value="Form 2">Form 2</option>
+                        <option value="Form 3">Form 3</option>
+                        <option value="Form 4">Form 4</option>
+                      </select>
+                      <svg class="select-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+                    </div>
+                  </div>
+                  
+                  <div class="input-group">
+                    <label class="input-label" for="student-shift">Daily Shift Schedule</label>
+                    <div class="select-wrapper">
+                      <select id="student-shift" class="select-field" required>
+                        <option value="" disabled selected>Select shift...</option>
+                        <option value="Morning">Morning</option>
+                        <option value="Afternoon">Afternoon</option>
+                      </select>
+                      <svg class="select-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-actions">
+                  <button type="button" class="btn-secondary" onclick="resetStudentForm()">Clear</button>
+                  <button type="submit" class="btn-primary" id="student-submit-btn">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                    <span>Save Student</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Directory Output Listing -->
+            <div class="glass-card form-panel" style="flex: 1;">
+              <h2 class="widget-title">Active Student Directory</h2>
+              
+              <!-- Search parameters -->
+              <div class="search-filter-row">
+                <div class="search-box-wrapper">
+                  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+                  <input type="text" id="student-search-input" class="search-input" placeholder="Search by name..." oninput="renderStudentList()">
+                </div>
+                <div class="select-wrapper" style="width: 150px;">
+                  <select id="student-filter-shift" class="select-field" onchange="renderStudentList()">
+                    <option value="All">All Shifts</option>
+                    <option value="Morning">Morning</option>
+                    <option value="Afternoon">Afternoon</option>
+                  </select>
+                  <svg class="select-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+                </div>
+              </div>
+              
+              <div class="table-container">
+                <table class="modern-table">
+                  <thead>
+                    <tr>
+                      <th>Student Name</th>
+                      <th>Class</th>
+                      <th>Shift</th>
+                      <th class="mgmt-col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="student-table-body">
+                    <tr>
+                      <td colspan="4" class="att-empty-state">No students loaded.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================
+             5. SECTION: TEACHERS MANAGEMENT
+             ========================================== -->
+        <section class="view-section" id="section-teachers">
+          <div class="section-title-wrap">
+            <h1 class="section-title">Teacher Management</h1>
+          </div>
+          
+          <div class="dashboard-split">
+            
+            <!-- Register Form -->
+            <div class="glass-card form-panel">
+              <h2 class="widget-title">Register Teacher Profile</h2>
+              
+              <form id="teacher-register-form" onsubmit="submitTeacherForm(event)" class="modern-form">
+                <input type="hidden" id="teacher-edit-id">
+                
+                <div class="input-group">
+                  <label class="input-label" for="teacher-name">Full Instructor Name</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="teacher-name" class="input-field" style="padding-left: 16px;" placeholder="e.g. Mr. Mohamoud Ahmed" required>
+                  </div>
+                </div>
+                
+                <div class="grid-forms-2col">
+                  <div class="input-group">
+                    <label class="input-label" for="teacher-subject">Assigned Subject Specialty</label>
+                    <div class="input-wrapper">
+                      <input type="text" id="teacher-subject" class="input-field" style="padding-left: 16px;" placeholder="e.g. Physics" required>
+                    </div>
+                  </div>
+                  
+                  <div class="input-group">
+                    <label class="input-label" for="teacher-phone">Contact Phone</label>
+                    <div class="input-wrapper">
+                      <input type="text" id="teacher-phone" class="input-field" style="padding-left: 16px;" placeholder="e.g. +252 63..." required>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-actions">
+                  <button type="button" class="btn-secondary" onclick="resetTeacherForm()">Clear</button>
+                  <button type="submit" class="btn-primary" id="teacher-submit-btn">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                    <span>Register Teacher</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Database Output Listing -->
+            <div class="glass-card form-panel" style="flex: 1;">
+              <h2 class="widget-title">Active Instructor Faculty</h2>
+              
+              <!-- Search query -->
+              <div class="search-filter-row">
+                <div class="search-box-wrapper">
+                  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+                  <input type="text" id="teacher-search-input" class="search-input" placeholder="Search by name or subject..." oninput="renderTeacherList()">
+                </div>
+              </div>
+              
+              <div class="table-container">
+                <table class="modern-table">
+                  <thead>
+                    <tr>
+                      <th>Teacher Name</th>
+                      <th>Subject Specialty</th>
+                      <th>Contact Phone</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="teacher-table-body">
+                    <tr>
+                      <td colspan="4" class="att-empty-state">No teachers recorded.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================
+             6. SECTION: ATTENDANCE ROLL MODULE
+             ========================================== -->
+        <section class="view-section" id="section-attendance">
+          <div class="section-title-wrap">
+            <h1 class="section-title">Attendance Roll</h1>
+          </div>
+          
+          <div class="dashboard-split">
+            
+            <!-- Left panel: Query selector & dynamic students roll call grid -->
+            <div class="glass-card form-panel">
+              <h2 class="widget-title">Log Daily Class Attendance</h2>
+              
+              <!-- Query Class details -->
+              <div class="grid-forms-2col" style="margin-bottom: 5px;">
+                <div class="input-group">
+                  <label class="input-label" for="att-query-class">Academic Form Class</label>
+                  <div class="select-wrapper">
+                    <select id="att-query-class" class="select-field" onchange="loadAttendanceRoll()">
+                      <option value="Form 1">Form 1</option>
+                      <option value="Form 2">Form 2</option>
+                      <option value="Form 3">Form 3</option>
+                      <option value="Form 4" selected>Form 4</option>
+                    </select>
+                    <svg class="select-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+                  </div>
+                </div>
+                
+                <div class="input-group">
+                  <label class="input-label" for="att-query-shift">Schedule Shift</label>
+                  <div class="select-wrapper">
+                    <select id="att-query-shift" class="select-field" onchange="loadAttendanceRoll()">
+                      <option value="Morning" selected>Morning</option>
+                      <option value="Afternoon">Afternoon</option>
+                    </select>
+                    <svg class="select-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Interactive Roll Call Ledger -->
+              <div class="attendance-grid-container" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 15px;">
+                <h3 class="input-label" style="margin-bottom: 10px;">Mark Status (Active Students)</h3>
+                
+                <div class="attendance-grid" id="attendance-roll-list">
+                  <div class="att-empty-state">Select class and shift criteria.</div>
+                </div>
+                
+                <div class="form-actions" style="margin-top: 20px;" id="attendance-actions-div">
+                  <button type="button" class="btn-primary" onclick="submitAttendanceRoll()">
+                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg>
+                    <span>Save Log Entry</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Panel: Visual Log history output -->
+            <div class="glass-card form-panel" style="flex: 1;">
+              <h2 class="widget-title">Saved Attendance History Logs</h2>
+              
+              <div class="table-container" style="max-height: 480px; overflow-y: auto;">
+                <table class="modern-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Class</th>
+                      <th>Shift</th>
+                      <th>Ratio Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="attendance-log-body">
+                    <tr>
+                      <td colspan="4" class="att-empty-state">No attendance entries saved yet.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================
+             7. SECTION: STUDENT FEES (INVOICES)
+             ========================================== -->
+        <section class="view-section" id="section-fees">
+          <div class="section-title-wrap">
+            <h1 class="section-title">Student Tuition Fees</h1>
+          </div>
+          
+          <div class="dashboard-split">
+            
+            <!-- Fee Receipt Form -->
+            <div class="glass-card form-panel">
+              <h2 class="widget-title">Record Tuition Payment Receipt</h2>
+              
+              <form id="fee-payment-form" onsubmit="submitFeeForm(event)" class="modern-form">
+                
+                <div class="input-group">
+                  <label class="input-label" for="fee-student-select">Select Student</label>
+                  <div class="select-wrapper">
+                    <select id="fee-student-select" class="select-field" required>
+                      <option value="" disabled selected>Choose student...</option>
+                    </select>
+                    <svg class="select-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+                  </div>
+                </div>
+                
+                <div class="input-group">
+                  <label class="input-label" for="fee-amount">Payment Amount ($ USD)</label>
+                  <div class="input-wrapper">
+                    <input type="number" id="fee-amount" class="input-field" style="padding-left: 16px;" placeholder="e.g. 120" min="1" required>
+                  </div>
+                </div>
+                
+                <div class="grid-forms-2col">
+                  <div class="input-group">
+                    <label class="input-label" for="fee-term">Academic Term Session</label>
+                    <div class="select-wrapper">
+                      <select id="fee-term" class="select-field" onchange="updateFeeMonthDropdown()" required>
+                        <option value="Term 1" selected>Term 1</option>
+                        <option value="Term 2">Term 2</option>
+                      </select>
+                      <svg class="select-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+                    </div>
+                  </div>
+                  
+                  <div class="input-group">
+                    <label class="input-label" for="fee-month">Payment Month</label>
+                    <div class="select-wrapper">
+                      <select id="fee-month" class="select-field" required>
+                        <!-- Updated Dynamically based on official Somaliland calendar -->
+                      </select>
+                      <svg class="select-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-actions">
+                  <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" ry="2" /><line x1="12" y1="4" x2="12" y2="20" /></svg>
+                    <span>Record Payment Receipt</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Visual Invoices Table Output -->
+            <div class="glass-card form-panel" style="flex: 1;">
+              <h2 class="widget-title">Receipt Invoice Ledger</h2>
+              
+              <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+                <table class="modern-table">
+                  <thead>
+                    <tr>
+                      <th>Student</th>
+                      <th>Amount</th>
+                      <th>Session Period</th>
+                      <th>Date Logged</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="fee-log-body">
+                    <tr>
+                      <td colspan="5" class="att-empty-state">No payment receipts registered.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================
+             8. SECTION: TEACHER PAYROLL MODULE
+             ========================================== -->
+        <section class="view-section" id="section-payroll">
+          <div class="section-title-wrap">
+            <h1 class="section-title">Teacher Payroll</h1>
+          </div>
+          
+          <div class="dashboard-split">
+            
+            <!-- Salary Form -->
+            <div class="glass-card form-panel">
+              <h2 class="widget-title">Disburse Instructor Salary</h2>
+              
+              <form id="payroll-payment-form" onsubmit="submitPayrollForm(event)" class="modern-form">
+                
+                <div class="input-group">
+                  <label class="input-label" for="payroll-teacher-select">Select Instructor Faculty</label>
+                  <div class="select-wrapper">
+                    <select id="payroll-teacher-select" class="select-field" required>
+                      <option value="" disabled selected>Choose teacher...</option>
+                    </select>
+                    <svg class="select-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+                  </div>
+                </div>
+                
+                <div class="input-group">
+                  <label class="input-label" for="payroll-amount">Disbursed Salary ($ USD)</label>
+                  <div class="input-wrapper">
+                    <input type="number" id="payroll-amount" class="input-field" style="padding-left: 16px;" placeholder="e.g. 400" min="1" required>
+                  </div>
+                </div>
+                
+                <div class="grid-forms-2col">
+                  <div class="input-group">
+                    <label class="input-label" for="payroll-term">Academic Term Session</label>
+                    <div class="select-wrapper">
+                      <select id="payroll-term" class="select-field" onchange="updatePayrollMonthDropdown()" required>
+                        <option value="Term 1" selected>Term 1</option>
+                        <option value="Term 2">Term 2</option>
+                      </select>
+                      <svg class="select-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+                    </div>
+                  </div>
+                  
+                  <div class="input-group">
+                    <label class="input-label" for="payroll-month">Month Period</label>
+                    <div class="select-wrapper">
+                      <select id="payroll-month" class="select-field" required>
+                        <!-- Updated Dynamically based on official Somaliland calendar -->
+                      </select>
+                      <svg class="select-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-actions">
+                  <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; background: var(--success-gradient); box-shadow: 0 4px 12px var(--success-glow);">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
+                    <span>Disburse Funds</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Visual Payroll Table Output -->
+            <div class="glass-card form-panel" style="flex: 1;">
+              <h2 class="widget-title">Salary Disbursements Log Ledger</h2>
+              
+              <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+                <table class="modern-table">
+                  <thead>
+                    <tr>
+                      <th>Instructor</th>
+                      <th>Salary Amount</th>
+                      <th>Period Month</th>
+                      <th>Date Paid</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="payroll-log-body">
+                    <tr>
+                      <td colspan="5" class="att-empty-state">No salary transactions saved.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ==========================================
+       9. SYSTEM LOGICAL ENGINE (VANILLA JAVASCRIPT)
+       ========================================== -->
+  <script>
+    /* ==========================================
+       A. IN-MEMORY / LOCALSTORAGE ENGINE DATA
+       ========================================== */
+    const DB_SEED_STUDENTS = [
+      { id: "stu_1", name: "Mohamed Ahmed Farrah", classLevel: "Form 4", shift: "Morning" },
+      { id: "stu_2", name: "Asha Omar Guleid", classLevel: "Form 4", shift: "Morning" },
+      { id: "stu_3", name: "Khalid Ali Warsame", classLevel: "Form 4", shift: "Afternoon" },
+      { id: "stu_4", name: "Faduma Yusuf Egal", classLevel: "Form 3", shift: "Morning" },
+      { id: "stu_5", name: "Mustafa Abdi Kahin", classLevel: "Form 2", shift: "Afternoon" },
+      { id: "stu_6", name: "Hassan Liban Abdi", classLevel: "Form 1", shift: "Morning" }
+    ];
+
+    const DB_SEED_TEACHERS = [
+      { id: "tchr_1", name: "Mr. Abdirahman Jama", subject: "Mathematics", phone: "+252 63 4402123" },
+      { id: "tchr_2", name: "Mrs. Nimco Hassan", subject: "Physics", phone: "+252 63 4118943" },
+      { id: "tchr_3", name: "Mr. Liban Issa", subject: "English Literature", phone: "+252 63 3229988" }
+    ];
+
+    const DB_SEED_FEES = [
+      { id: "fee_1", studentId: "stu_1", studentName: "Mohamed Ahmed Farrah", amount: 100, term: "Term 1", month: "August", date: "2026-05-30" },
+      { id: "fee_2", studentId: "stu_2", studentName: "Asha Omar Guleid", amount: 100, term: "Term 1", month: "August", date: "2026-05-30" },
+      { id: "fee_3", studentId: "stu_4", studentName: "Faduma Yusuf Egal", amount: 80, term: "Term 1", month: "September", date: "2026-05-31" }
+    ];
+
+    const DB_SEED_PAYROLL = [
+      { id: "pay_1", teacherId: "tchr_1", teacherName: "Mr. Abdirahman Jama", amount: 350, term: "Term 1", month: "August", date: "2026-05-28" },
+      { id: "pay_2", teacherId: "tchr_2", teacherName: "Mrs. Nimco Hassan", amount: 350, term: "Term 1", month: "August", date: "2026-05-28" }
+    ];
+
+    // Main in-memory state variables
+    let students = [];
+    let teachers = [];
+    let attendanceHistory = [];
+    let feeInvoices = [];
+    let teacherPayroll = [];
+    
+    // Auth Session context state
+    let currentSessionUser = null;
+    let currentAuthRoleTab = "manager";
+
+    // Somaliland Session definitions
+    const SOMALILAND_TERM_MONTHS = {
+      "Term 1": ["August", "September", "October", "November", "December", "January"],
+      "Term 2": ["February", "March", "April", "May", "June"]
+    };
+
+    /* ==========================================
+       B. BOOTSTRAPPING & DB INITIALIZATION
+       ========================================== */
+    window.addEventListener("DOMContentLoaded", () => {
+      initDatabase();
+      startLiveClock();
+      updateFeeMonthDropdown();
+      updatePayrollMonthDropdown();
+      checkActiveSession();
+    });
+
+    function initDatabase() {
+      // Load or set student list
+      if (!localStorage.getItem("aetheris_students")) {
+        localStorage.setItem("aetheris_students", JSON.stringify(DB_SEED_STUDENTS));
+      }
+      students = JSON.parse(localStorage.getItem("aetheris_students"));
+
+      // Load or set teacher list
+      if (!localStorage.getItem("aetheris_teachers")) {
+        localStorage.setItem("aetheris_teachers", JSON.stringify(DB_SEED_TEACHERS));
+      }
+      teachers = JSON.parse(localStorage.getItem("aetheris_teachers"));
+
+      // Load or set attendance history
+      if (!localStorage.getItem("aetheris_attendance")) {
+        localStorage.setItem("aetheris_attendance", JSON.stringify([]));
+      }
+      attendanceHistory = JSON.parse(localStorage.getItem("aetheris_attendance"));
+
+      // Load or set student tuition fees
+      if (!localStorage.getItem("aetheris_fees")) {
+        localStorage.setItem("aetheris_fees", JSON.stringify(DB_SEED_FEES));
+      }
+      feeInvoices = JSON.parse(localStorage.getItem("aetheris_fees"));
+
+      // Load or set payroll disbursements
+      if (!localStorage.getItem("aetheris_payroll")) {
+        localStorage.setItem("aetheris_payroll", JSON.stringify(DB_SEED_PAYROLL));
+      }
+      teacherPayroll = JSON.parse(localStorage.getItem("aetheris_payroll"));
+    }
+
+    function saveStateToStore(key, dataArray) {
+      localStorage.setItem(key, JSON.stringify(dataArray));
+    }
+
+    /* ==========================================
+       C. TOAST NOTIFICATION UTILITY ENGINE
+       ========================================== */
+    function showToast(title, message, type = "success") {
+      const container = document.getElementById("toast-container");
+      
+      const toast = document.createElement("div");
+      toast.className = `toast-box glass-card toast-card-${type}`;
+      
+      let strokeColor = "var(--success)";
+      if (type === "danger") strokeColor = "var(--danger)";
+      
+      toast.innerHTML = `
+        <svg class="toast-icon" viewBox="0 0 24 24" style="stroke: ${strokeColor}; fill: none; stroke-width: 2.5px;">
+          ${type === 'success' 
+            ? '<polyline points="20 6 9 17 4 12" />' 
+            : '<circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" />'}
+        </svg>
+        <div class="toast-content">
+          <div class="toast-title">${title}</div>
+          <div class="toast-message">${message}</div>
+        </div>
+      `;
+      
+      container.appendChild(toast);
+      
+      // Auto dismiss animation
+      setTimeout(() => {
+        toast.classList.add("toast-out");
+        toast.addEventListener("animationend", () => {
+          toast.remove();
+        });
+      }, 3500);
+    }
+
+    /* ==========================================
+       D. LIVE CLOCK SYSTEM WIDGET
+       ========================================== */
+    function startLiveClock() {
+      const liveClockEl = document.getElementById("header-live-time");
+      
+      function refreshTime() {
+        const now = new Date();
+        const options = { 
+          weekday: 'long', 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric',
+          hour: '2-digit', 
+          minute: '2-digit', 
+          second: '2-digit',
+          hour12: true 
+        };
+        liveClockEl.textContent = now.toLocaleDateString('en-US', options);
+      }
+      
+      refreshTime();
+      setInterval(refreshTime, 1000);
+    }
+
+    /* ==========================================
+       E. AUTH LAYER (LOGIN / LOGOUT CONTROLS)
+       ========================================== */
+    function setAuthRole(role) {
+      currentAuthRoleTab = role;
+      
+      // Update interactive tabs active state
+      document.getElementById("btn-tab-manager").classList.toggle("active", role === "manager");
+      document.getElementById("btn-tab-teacher").classList.toggle("active", role === "teacher");
+      
+      // Redecorate login guidance tips
+      const tipBox = document.getElementById("login-credentials-tip");
+      if (role === "manager") {
+        tipBox.innerHTML = `Manager: <strong>admin / 123</strong>`;
+      } else {
+        tipBox.innerHTML = `Teacher: <strong>teacher / 123</strong>`;
+      }
+    }
+
+    function handleAuthLogin(event) {
+      event.preventDefault();
+      
+      const userField = document.getElementById("login-username").value.trim();
+      const passField = document.getElementById("login-password").value;
+      
+      let isSuccess = false;
+      let displayName = "";
+      
+      if (currentAuthRoleTab === "manager") {
+        if (userField.toLowerCase() === "admin" && passField === "123") {
+          isSuccess = true;
+          displayName = "Administrator Manager";
+        }
+      } else if (currentAuthRoleTab === "teacher") {
+        if (userField.toLowerCase() === "teacher" && passField === "123") {
+          isSuccess = true;
+          displayName = "Senior Teacher Portal";
+        }
+      }
+      
+      if (isSuccess) {
+        currentSessionUser = {
+          username: userField,
+          role: currentAuthRoleTab,
+          displayName: displayName
+        };
+        
+        // Save session state to localStorage
+        localStorage.setItem("aetheris_session", JSON.stringify(currentSessionUser));
+        
+        showToast("Access Authorized", `Welcome to the administrative portal, ${displayName}!`, "success");
+        renderAuthenticatedSession();
+      } else {
+        showToast("Access Failure", "Invalid username or password credentials provided.", "danger");
+      }
+    }
+
+    function checkActiveSession() {
+      const activeSession = localStorage.getItem("aetheris_session");
+      if (activeSession) {
+        currentSessionUser = JSON.parse(activeSession);
+        renderAuthenticatedSession();
+      } else {
+        // Toggle view elements back to login
+        document.getElementById("login-overlay").classList.remove("hidden");
+        document.getElementById("app-container").classList.remove("visible");
+      }
+    }
+
+    function renderAuthenticatedSession() {
+      // Hide login overlays and show workspace
+      document.getElementById("login-overlay").classList.add("hidden");
+      document.getElementById("app-container").classList.add("visible");
+      
+      // Update UI components with session specific metadata
+      document.getElementById("user-display-name").textContent = currentSessionUser.displayName;
+      document.getElementById("user-display-role").textContent = currentSessionUser.role.toUpperCase();
+      document.getElementById("user-avatar-text").textContent = currentSessionUser.role.charAt(0).toUpperCase();
+      
+      document.getElementById("header-welcome-title").textContent = `Welcome back, ${currentSessionUser.role.charAt(0).toUpperCase() + currentSessionUser.role.slice(1)}`;
+      
+      // Hide/Restrict components depending on Role permission rules
+      const isManager = currentSessionUser.role === "manager";
+      
+      document.getElementById("nav-item-teachers").style.display = isManager ? "block" : "none";
+      document.getElementById("nav-item-fees").style.display = isManager ? "block" : "none";
+      document.getElementById("nav-item-payroll").style.display = isManager ? "block" : "none";
+      
+      // Dashboard components hide/show
+      document.getElementById("dash-card-fees").style.display = isManager ? "flex" : "none";
+      document.getElementById("dash-card-net").style.display = isManager ? "flex" : "none";
+      document.getElementById("dash-widget-finance").style.display = isManager ? "flex" : "none";
+      
+      // Student Management restricted views
+      const mgmtCols = document.querySelectorAll(".mgmt-col");
+      mgmtCols.forEach(col => col.style.display = isManager ? "table-cell" : "none");
+      
+      const formContainer = document.getElementById("student-form-container");
+      formContainer.style.display = isManager ? "flex" : "none";
+
+      // Clear login inputs
+      document.getElementById("login-username").value = "";
+      document.getElementById("login-password").value = "";
+      
+      // Load initial layout view
+      switchSection("dashboard");
+      
+      // Bootstrap list builders
+      refreshDashboardStats();
+      renderStudentList();
+      renderTeacherList();
+      loadAttendanceRoll();
+      renderAttendanceHistory();
+      renderFeeList();
+      renderPayrollList();
+      populateDropdowns();
+      logActivity("Authentication Successful", `${currentSessionUser.displayName} logged in successfully.`);
+    }
+
+    function handleAuthLogout() {
+      logActivity("Sign-Out Initiated", `${currentSessionUser.displayName} signed out.`);
+      currentSessionUser = null;
+      localStorage.removeItem("aetheris_session");
+      
+      showToast("Signed Out", "You have successfully closed the administrative session.", "success");
+      
+      // Refresh dynamic UI views
+      document.getElementById("login-overlay").classList.remove("hidden");
+      document.getElementById("app-container").classList.remove("visible");
+    }
+
+    /* ==========================================
+       F. WORKSPACE SECTIONS TOGGLE ROUTER
+       ========================================== */
+    function switchSection(sectionId) {
+      // Toggle active link highlights
+      const links = document.querySelectorAll(".nav-link");
+      links.forEach(link => link.classList.remove("active"));
+      
+      const targetLink = document.getElementById(`nav-${sectionId}`);
+      if (targetLink) targetLink.classList.add("active");
+      
+      // Switch view panel elements
+      const sections = document.querySelectorAll(".view-section");
+      sections.forEach(sec => sec.classList.remove("active"));
+      
+      const targetSec = document.getElementById(`section-${sectionId}`);
+      if (targetSec) targetSec.classList.add("active");
+      
+      // Special actions on tab loading
+      if (sectionId === "dashboard") {
+        refreshDashboardStats();
+      } else if (sectionId === "attendance") {
+        loadAttendanceRoll();
+      }
+    }
+
+    /* ==========================================
+       G. SYSTEM LEDGER & ACTIVITY LOGGER
+       ========================================== */
+    const sessionLogsArray = [];
+
+    function logActivity(action, details) {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      
+      sessionLogsArray.unshift({
+        action: action,
+        details: details,
+        time: timeStr
+      });
+      
+      renderSessionLogs();
+    }
+
+    function renderSessionLogs() {
+      const logBody = document.getElementById("dashboard-activity-log");
+      if (sessionLogsArray.length === 0) {
+        logBody.innerHTML = `<li class="att-empty-state">No operations registered in this session.</li>`;
+        return;
+      }
+      
+      logBody.innerHTML = sessionLogsArray.map(item => {
+        let dotColor = "var(--accent-primary)";
+        if (item.action.includes("Delete") || item.action.includes("Out") || item.action.includes("Failure")) {
+          dotColor = "var(--danger)";
+        } else if (item.action.includes("Add") || item.action.includes("Save") || item.action.includes("Receipt") || item.action.includes("Disburse")) {
+          dotColor = "var(--success)";
+        }
+        
+        return `
+          <li class="activity-item">
+            <span class="activity-circle" style="background: ${dotColor}; box-shadow: 0 0 6px ${dotColor};"></span>
+            <div class="activity-desc">
+              <strong>${item.action}:</strong> ${item.details}
+            </div>
+            <div class="activity-time">${item.time}</div>
+          </li>
+        `;
+      }).join('');
+    }
+
+    /* ==========================================
+       H. DASHBOARD BUSINESS METRICS ENGINE
+       ========================================== */
+    function refreshDashboardStats() {
+      // Core numerical collections counts
+      document.getElementById("dash-val-students").textContent = students.length;
+      document.getElementById("dash-val-teachers").textContent = teachers.length;
+      
+      // Calculate Fees Paid amount sum
+      const totalFeesCollected = feeInvoices.reduce((sum, item) => sum + Number(item.amount), 0);
+      document.getElementById("dash-val-fees").textContent = `$${totalFeesCollected.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+      document.getElementById("fin-breakdown-fees").textContent = `$${totalFeesCollected.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+      
+      // Calculate Payroll paid amount sum
+      const totalPayrollPaid = teacherPayroll.reduce((sum, item) => sum + Number(item.amount), 0);
+      document.getElementById("fin-breakdown-payroll").textContent = `$${totalPayrollPaid.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+      
+      // Net balance metric calculation formula
+      const netBalance = totalFeesCollected - totalPayrollPaid;
+      const netValEl = document.getElementById("dash-val-net");
+      netValEl.textContent = `$${netBalance.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+      
+      // Apply positive vs negative colors depending on math sign
+      if (netBalance >= 0) {
+        netValEl.style.color = "var(--success)";
+      } else {
+        netValEl.style.color = "var(--danger)";
+      }
+      
+      // Calculate operational financial efficiency ratio (Revenue vs Spend)
+      let efficiencyRatio = 0;
+      if (totalFeesCollected > 0) {
+        efficiencyRatio = Math.max(0, Math.min(100, Math.round(((totalFeesCollected - totalPayrollPaid) / totalFeesCollected) * 100)));
+      }
+      
+      document.getElementById("fin-ratio-text").textContent = `${efficiencyRatio}%`;
+      document.getElementById("fin-ratio-bar").style.width = `${efficiencyRatio}%`;
+    }
+
+    /* ==========================================
+       I. STUDENT DIRECTORY LOGIC
+       ========================================== */
+    function renderStudentList() {
+      const tableBody = document.getElementById("student-table-body");
+      const searchVal = document.getElementById("student-search-input").value.toLowerCase();
+      const filterShift = document.getElementById("student-filter-shift").value;
+      const isManager = currentSessionUser && currentSessionUser.role === "manager";
+      
+      const filtered = students.filter(student => {
+        const matchesSearch = student.name.toLowerCase().includes(searchVal);
+        const matchesShift = filterShift === "All" || student.shift === filterShift;
+        return matchesSearch && matchesShift;
+      });
+      
+      if (filtered.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="4" class="att-empty-state">No matching students found.</td></tr>`;
+        return;
+      }
+      
+      tableBody.innerHTML = filtered.map(student => {
+        const shiftBadgeClass = student.shift === "Morning" ? "badge-blue" : "badge-purple";
+        return `
+          <tr>
+            <td style="font-weight: 600;">${student.name}</td>
+            <td><span class="badge" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: white;">${student.classLevel}</span></td>
+            <td><span class="badge ${shiftBadgeClass}">${student.shift}</span></td>
+            <td class="mgmt-col" style="${isManager ? '' : 'display: none;'}">
+              <div class="table-actions">
+                <button type="button" class="action-btn" onclick="editStudent('${student.id}')" title="Edit Student">
+                  <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4z" /></svg>
+                </button>
+                <button type="button" class="action-btn action-btn-danger" onclick="deleteStudent('${student.id}')" title="Delete Student">
+                  <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function submitStudentForm(event) {
+      event.preventDefault();
+      
+      const editId = document.getElementById("student-edit-id").value;
+      const name = document.getElementById("student-name").value.trim();
+      const classLevel = document.getElementById("student-class").value;
+      const shift = document.getElementById("student-shift").value;
+      
+      if (!name || !classLevel || !shift) {
+        showToast("Incomplete Parameters", "Please fill in all input properties.", "danger");
+        return;
+      }
+      
+      if (editId) {
+        // Edit mode
+        const index = students.findIndex(s => s.id === editId);
+        if (index !== -1) {
+          const oldName = students[index].name;
+          students[index] = { ...students[index], name, classLevel, shift };
+          logActivity("Student Profile Updated", `Name updated from "${oldName}" to "${name}"`);
+          showToast("Student Updated", "Student profile has been successfully modified.", "success");
+        }
+      } else {
+        // Add mode
+        const newStudent = {
+          id: `stu_${Date.now()}`,
+          name,
+          classLevel,
+          shift
+        };
+        students.push(newStudent);
+        logActivity("Student Profile Added", `Successfully registered student "${name}" in ${classLevel} (${shift} Shift).`);
+        showToast("Student Registered", "New student successfully enrolled.", "success");
+      }
+      
+      saveStateToStore("aetheris_students", students);
+      resetStudentForm();
+      renderStudentList();
+      populateDropdowns();
+      refreshDashboardStats();
+    }
+
+    function editStudent(id) {
+      const student = students.find(s => s.id === id);
+      if (!student) return;
+      
+      document.getElementById("student-edit-id").value = student.id;
+      document.getElementById("student-name").value = student.name;
+      document.getElementById("student-class").value = student.classLevel;
+      document.getElementById("student-shift").value = student.shift;
+      
+      document.getElementById("student-submit-btn").querySelector("span").textContent = "Update Profile";
+      document.getElementById("student-name").focus();
+    }
+
+    function deleteStudent(id) {
+      const index = students.findIndex(s => s.id === id);
+      if (index === -1) return;
+      
+      const confirmed = confirm(`Are you sure you want to completely remove student profile for ${students[index].name}?`);
+      if (!confirmed) return;
+      
+      const deletedName = students[index].name;
+      students.splice(index, 1);
+      
+      saveStateToStore("aetheris_students", students);
+      logActivity("Student Profile Deleted", `Removed "${deletedName}" from school registry.`);
+      showToast("Profile Removed", "Student records cleared successfully.", "success");
+      
+      renderStudentList();
+      populateDropdowns();
+      refreshDashboardStats();
+    }
+
+    function resetStudentForm() {
+      document.getElementById("student-edit-id").value = "";
+      document.getElementById("student-name").value = "";
+      document.getElementById("student-class").value = "";
+      document.getElementById("student-shift").value = "";
+      document.getElementById("student-submit-btn").querySelector("span").textContent = "Save Student";
+    }
+
+    /* ==========================================
+       J. TEACHER DIRECTORY LOGIC
+       ========================================== */
+    function renderTeacherList() {
+      const tableBody = document.getElementById("teacher-table-body");
+      const searchVal = document.getElementById("teacher-search-input").value.toLowerCase();
+      
+      const filtered = teachers.filter(teacher => {
+        return teacher.name.toLowerCase().includes(searchVal) || teacher.subject.toLowerCase().includes(searchVal);
+      });
+      
+      if (filtered.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="4" class="att-empty-state">No matching instructors found.</td></tr>`;
+        return;
+      }
+      
+      tableBody.innerHTML = filtered.map(teacher => {
+        return `
+          <tr>
+            <td style="font-weight: 600;">${teacher.name}</td>
+            <td><span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.25);">${teacher.subject}</span></td>
+            <td style="font-family: monospace;">${teacher.phone}</td>
+            <td>
+              <div class="table-actions">
+                <button type="button" class="action-btn" onclick="editTeacher('${teacher.id}')" title="Edit Teacher">
+                  <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4z" /></svg>
+                </button>
+                <button type="button" class="action-btn action-btn-danger" onclick="deleteTeacher('${teacher.id}')" title="Delete Teacher">
+                  <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function submitTeacherForm(event) {
+      event.preventDefault();
+      
+      const editId = document.getElementById("teacher-edit-id").value;
+      const name = document.getElementById("teacher-name").value.trim();
+      const subject = document.getElementById("teacher-subject").value.trim();
+      const phone = document.getElementById("teacher-phone").value.trim();
+      
+      if (!name || !subject || !phone) {
+        showToast("Incomplete Parameters", "Please fill in all teacher properties.", "danger");
+        return;
+      }
+      
+      if (editId) {
+        const index = teachers.findIndex(t => t.id === editId);
+        if (index !== -1) {
+          const oldName = teachers[index].name;
+          teachers[index] = { ...teachers[index], name, subject, phone };
+          logActivity("Teacher Profile Updated", `Instructor updated from "${oldName}" to "${name}"`);
+          showToast("Faculty Profile Updated", "Teacher records updated successfully.", "success");
+        }
+      } else {
+        const newTeacher = {
+          id: `tchr_${Date.now()}`,
+          name,
+          subject,
+          phone
+        };
+        teachers.push(newTeacher);
+        logActivity("Teacher Faculty Added", `Successfully registered instructor "${name}" for subject "${subject}".`);
+        showToast("Faculty Registered", "New teacher enrolled successfully.", "success");
+      }
+      
+      saveStateToStore("aetheris_teachers", teachers);
+      resetTeacherForm();
+      renderTeacherList();
+      populateDropdowns();
+      refreshDashboardStats();
+    }
+
+    function editTeacher(id) {
+      const teacher = teachers.find(t => t.id === id);
+      if (!teacher) return;
+      
+      document.getElementById("teacher-edit-id").value = teacher.id;
+      document.getElementById("teacher-name").value = teacher.name;
+      document.getElementById("teacher-subject").value = teacher.subject;
+      document.getElementById("teacher-phone").value = teacher.phone;
+      
+      document.getElementById("teacher-submit-btn").querySelector("span").textContent = "Update Faculty";
+      document.getElementById("teacher-name").focus();
+    }
+
+    function deleteTeacher(id) {
+      const index = teachers.findIndex(t => t.id === id);
+      if (index === -1) return;
+      
+      const confirmed = confirm(`Are you sure you want to completely remove instructor profile for ${teachers[index].name}?`);
+      if (!confirmed) return;
+      
+      const deletedName = teachers[index].name;
+      teachers.splice(index, 1);
+      
+      saveStateToStore("aetheris_teachers", teachers);
+      logActivity("Teacher Profile Deleted", `Removed instructor "${deletedName}" from active faculty list.`);
+      showToast("Profile Removed", "Instructor faculty records cleared.", "success");
+      
+      renderTeacherList();
+      populateDropdowns();
+      refreshDashboardStats();
+    }
+
+    function resetTeacherForm() {
+      document.getElementById("teacher-edit-id").value = "";
+      document.getElementById("teacher-name").value = "";
+      document.getElementById("teacher-subject").value = "";
+      document.getElementById("teacher-phone").value = "";
+      document.getElementById("teacher-submit-btn").querySelector("span").textContent = "Register Teacher";
+    }
+
+    /* ==========================================
+       K. ATTENDANCE ROLL TRANSACTION LOGIC
+       ========================================== */
+    let currentActiveRollStudents = [];
+    const currentActiveRollRecords = {}; // maps studentId -> 'Present' | 'Absent'
+
+    function loadAttendanceRoll() {
+      const targetClass = document.getElementById("att-query-class").value;
+      const targetShift = document.getElementById("att-query-shift").value;
+      const rollBody = document.getElementById("attendance-roll-list");
+      
+      // Filter student database on class & shift criteria
+      currentActiveRollStudents = students.filter(s => s.classLevel === targetClass && s.shift === targetShift);
+      
+      if (currentActiveRollStudents.length === 0) {
+        rollBody.innerHTML = `<div class="att-empty-state">No students found matching Form class "${targetClass}" in "${targetShift}" Shift.</div>`;
+        document.getElementById("attendance-actions-div").style.display = "none";
+        return;
+      }
+      
+      document.getElementById("attendance-actions-div").style.display = "flex";
+      
+      // Default all to Present on query launch
+      currentActiveRollStudents.forEach(s => {
+        if (!currentActiveRollRecords[s.id]) {
+          currentActiveRollRecords[s.id] = "Present";
+        }
+      });
+      
+      renderAttendanceRollCallGrid();
+    }
+
+    function renderAttendanceRollCallGrid() {
+      const rollBody = document.getElementById("attendance-roll-list");
+      
+      rollBody.innerHTML = currentActiveRollStudents.map((student, index) => {
+        const status = currentActiveRollRecords[student.id] || "Present";
+        const isPresent = status === "Present";
+        
+        return `
+          <div class="attendance-item">
+            <div class="att-student-info">
+              <span class="att-number">${index + 1}</span>
+              <span class="att-name">${student.name}</span>
+            </div>
+            
+            <div class="att-status-toggle">
+              <button type="button" 
+                      class="att-toggle-btn ${isPresent ? 'present-active' : ''}" 
+                      onclick="toggleAttendance('${student.id}', 'Present')">
+                Present
+              </button>
+              <button type="button" 
+                      class="att-toggle-btn ${!isPresent ? 'absent-active' : ''}" 
+                      onclick="toggleAttendance('${student.id}', 'Absent')">
+                Absent
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleAttendance(studentId, status) {
+      currentActiveRollRecords[studentId] = status;
+      renderAttendanceRollCallGrid();
+    }
+
+    function submitAttendanceRoll() {
+      if (currentActiveRollStudents.length === 0) return;
+      
+      const targetClass = document.getElementById("att-query-class").value;
+      const targetShift = document.getElementById("att-query-shift").value;
+      const now = new Date();
+      const dateStr = now.toISOString().split('T')[0];
+      
+      // Calculate present ratios
+      let presentCount = 0;
+      currentActiveRollStudents.forEach(s => {
+        if (currentActiveRollRecords[s.id] === "Present") presentCount++;
+      });
+      
+      const totalCount = currentActiveRollStudents.length;
+      
+      const attendanceLogEntry = {
+        id: `att_${Date.now()}`,
+        date: dateStr,
+        classLevel: targetClass,
+        shift: targetShift,
+        presentCount,
+        totalCount,
+        records: { ...currentActiveRollRecords }
+      };
+      
+      attendanceHistory.unshift(attendanceLogEntry);
+      saveStateToStore("aetheris_attendance", attendanceHistory);
+      
+      logActivity("Attendance Saved", `Logged class ${targetClass} (${targetShift}): ${presentCount}/${totalCount} Present.`);
+      showToast("Attendance Saved", "Daily attendance records recorded successfully.", "success");
+      
+      renderAttendanceHistory();
+    }
+
+    function renderAttendanceHistory() {
+      const logBody = document.getElementById("attendance-log-body");
+      
+      if (attendanceHistory.length === 0) {
+        logBody.innerHTML = `<tr><td colspan="4" class="att-empty-state">No attendance entries saved yet.</td></tr>`;
+        return;
+      }
+      
+      logBody.innerHTML = attendanceHistory.map(entry => {
+        const ratio = `${entry.presentCount}/${entry.totalCount}`;
+        const ratioPercentage = entry.totalCount > 0 ? (entry.presentCount / entry.totalCount) : 0;
+        
+        let badgeClass = "badge-success";
+        if (ratioPercentage < 0.6) {
+          badgeClass = "badge-danger";
+        } else if (ratioPercentage < 0.85) {
+          badgeClass = "badge-blue";
+        }
+        
+        return `
+          <tr>
+            <td style="font-family: monospace; font-weight: 500;">${entry.date}</td>
+            <td style="font-weight: 600;">${entry.classLevel}</td>
+            <td>${entry.shift}</td>
+            <td><span class="badge ${badgeClass}">${ratio} Present</span></td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    /* ==========================================
+       L. STUDENT TUITION FEES (FINANCIALS)
+       ========================================== */
+    function updateFeeMonthDropdown() {
+      const termSelected = document.getElementById("fee-term").value;
+      const monthDropdown = document.getElementById("fee-month");
+      
+      const months = SOMALILAND_TERM_MONTHS[termSelected] || [];
+      
+      monthDropdown.innerHTML = months.map(m => `<option value="${m}">${m}</option>`).join('');
+    }
+
+    function renderFeeList() {
+      const logBody = document.getElementById("fee-log-body");
+      const isManager = currentSessionUser && currentSessionUser.role === "manager";
+      
+      if (feeInvoices.length === 0) {
+        logBody.innerHTML = `<tr><td colspan="5" class="att-empty-state">No payment receipts registered.</td></tr>`;
+        return;
+      }
+      
+      logBody.innerHTML = feeInvoices.map(invoice => {
+        return `
+          <tr>
+            <td style="font-weight: 600;">${invoice.studentName}</td>
+            <td style="font-weight: 700; color: var(--success);">$${invoice.amount}.00</td>
+            <td><span class="badge badge-blue">${invoice.term}: ${invoice.month}</span></td>
+            <td style="font-family: monospace;">${invoice.date}</td>
+            <td>
+              ${isManager ? `
+                <button type="button" class="action-btn action-btn-danger" onclick="deleteFeePayment('${invoice.id}')" title="Delete Receipt">
+                  <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+                </button>
+              ` : '-'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function submitFeeForm(event) {
+      event.preventDefault();
+      
+      const studentId = document.getElementById("fee-student-select").value;
+      const amount = Number(document.getElementById("fee-amount").value);
+      const term = document.getElementById("fee-term").value;
+      const month = document.getElementById("fee-month").value;
+      
+      if (!studentId || isNaN(amount) || amount <= 0 || !term || !month) {
+        showToast("Invalid Input", "Please provide complete payment properties.", "danger");
+        return;
+      }
+      
+      const targetStudent = students.find(s => s.id === studentId);
+      if (!targetStudent) return;
+      
+      const now = new Date();
+      const dateStr = now.toISOString().split('T')[0];
+      
+      const newInvoice = {
+        id: `fee_${Date.now()}`,
+        studentId: targetStudent.id,
+        studentName: targetStudent.name,
+        amount,
+        term,
+        month,
+        date: dateStr
+      };
+      
+      feeInvoices.push(newInvoice);
+      saveStateToStore("aetheris_fees", feeInvoices);
+      
+      logActivity("Fee Receipt Logged", `Tuition payment of $${amount} collected from student "${targetStudent.name}".`);
+      showToast("Payment Registered", "Tuition invoice recorded successfully.", "success");
+      
+      document.getElementById("fee-amount").value = "";
+      renderFeeList();
+      refreshDashboardStats();
+    }
+
+    function deleteFeePayment(id) {
+      const index = feeInvoices.findIndex(f => f.id === id);
+      if (index === -1) return;
+      
+      const confirmed = confirm(`Are you sure you want to completely void fee collection entry?`);
+      if (!confirmed) return;
+      
+      const amount = feeInvoices[index].amount;
+      const name = feeInvoices[index].studentName;
+      feeInvoices.splice(index, 1);
+      
+      saveStateToStore("aetheris_fees", feeInvoices);
+      logActivity("Fee Voided", `Tuition collection of $${amount} voided for student "${name}".`);
+      showToast("Payment Voided", "Transaction voided successfully.", "success");
+      
+      renderFeeList();
+      refreshDashboardStats();
+    }
+
+    /* ==========================================
+       M. TEACHER PAYROLL ENGINE
+       ========================================== */
+    function updatePayrollMonthDropdown() {
+      const termSelected = document.getElementById("payroll-term").value;
+      const monthDropdown = document.getElementById("payroll-month");
+      
+      const months = SOMALILAND_TERM_MONTHS[termSelected] || [];
+      
+      monthDropdown.innerHTML = months.map(m => `<option value="${m}">${m}</option>`).join('');
+    }
+
+    function renderPayrollList() {
+      const logBody = document.getElementById("payroll-log-body");
+      const isManager = currentSessionUser && currentSessionUser.role === "manager";
+      
+      if (teacherPayroll.length === 0) {
+        logBody.innerHTML = `<tr><td colspan="5" class="att-empty-state">No salary transactions saved.</td></tr>`;
+        return;
+      }
+      
+      logBody.innerHTML = teacherPayroll.map(payroll => {
+        return `
+          <tr>
+            <td style="font-weight: 600;">${payroll.teacherName}</td>
+            <td style="font-weight: 700; color: var(--danger);">$${payroll.amount}.00</td>
+            <td><span class="badge badge-purple">${payroll.term}: ${payroll.month}</span></td>
+            <td style="font-family: monospace;">${payroll.date}</td>
+            <td>
+              ${isManager ? `
+                <button type="button" class="action-btn action-btn-danger" onclick="deletePayrollPayment('${payroll.id}')" title="Void Transaction">
+                  <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+                </button>
+              ` : '-'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function submitPayrollForm(event) {
+      event.preventDefault();
+      
+      const teacherId = document.getElementById("payroll-teacher-select").value;
+      const amount = Number(document.getElementById("payroll-amount").value);
+      const term = document.getElementById("payroll-term").value;
+      const month = document.getElementById("payroll-month").value;
+      
+      if (!teacherId || isNaN(amount) || amount <= 0 || !term || !month) {
+        showToast("Invalid Input", "Please provide complete salary transaction fields.", "danger");
+        return;
+      }
+      
+      const targetTeacher = teachers.find(t => t.id === teacherId);
+      if (!targetTeacher) return;
+      
+      const now = new Date();
+      const dateStr = now.toISOString().split('T')[0];
+      
+      const newDisbursement = {
+        id: `pay_${Date.now()}`,
+        teacherId: targetTeacher.id,
+        teacherName: targetTeacher.name,
+        amount,
+        term,
+        month,
+        date: dateStr
+      };
+      
+      teacherPayroll.push(newDisbursement);
+      saveStateToStore("aetheris_payroll", teacherPayroll);
+      
+      logActivity("Salary Disbursed", `Disbursed $${amount} salary to instructor "${targetTeacher.name}".`);
+      showToast("Salary Disbursed", "Payroll funds successfully allocated.", "success");
+      
+      document.getElementById("payroll-amount").value = "";
+      renderPayrollList();
+      refreshDashboardStats();
+    }
+
+    function deletePayrollPayment(id) {
+      const index = teacherPayroll.findIndex(p => p.id === id);
+      if (index === -1) return;
+      
+      const confirmed = confirm(`Are you sure you want to completely void salary disbursement transaction?`);
+      if (!confirmed) return;
+      
+      const amount = teacherPayroll[index].amount;
+      const name = teacherPayroll[index].teacherName;
+      teacherPayroll.splice(index, 1);
+      
+      saveStateToStore("aetheris_payroll", teacherPayroll);
+      logActivity("Salary Voided", `Voided payroll disbursement of $${amount} for instructor "${name}".`);
+      showToast("Payroll Voided", "Salary record voided successfully.", "success");
+      
+      renderPayrollList();
+      refreshDashboardStats();
+    }
+
+    /* ==========================================
+       N. SELECTION DROPDOWNS POPULATION WIDGET
+       ========================================== */
+    function populateDropdowns() {
+      // 1. Fee Student Dropdown Select
+      const feeStudentSel = document.getElementById("fee-student-select");
+      
+      // Sort students alphabetically
+      const sortedStudents = [...students].sort((a,b) => a.name.localeCompare(b.name));
+      
+      feeStudentSel.innerHTML = `
+        <option value="" disabled selected>Choose student...</option>
+        ${sortedStudents.map(s => `<option value="${s.id}">${s.name} (${s.classLevel})</option>`).join('')}
+      `;
+      
+      // 2. Payroll Teacher Dropdown Select
+      const payTeacherSel = document.getElementById("payroll-teacher-select");
+      
+      const sortedTeachers = [...teachers].sort((a,b) => a.name.localeCompare(b.name));
+      
+      payTeacherSel.innerHTML = `
+        <option value="" disabled selected>Choose teacher...</option>
+        ${sortedTeachers.map(t => `<option value="${t.id}">${t.name} (${t.subject})</option>`).join('')}
+      `;
+    }
+  </script>
+</body>
+</html>
